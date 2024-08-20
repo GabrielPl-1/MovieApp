@@ -1,3 +1,5 @@
+import 'dart:js_interop';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:movie_app/models/movie_model.dart';
@@ -15,6 +17,7 @@ class _NowPlayingListState extends State<NowPlayingList> {
   PageController pageController = PageController();
   ApiServices apiService = ApiServices();
   List<Movie> movies = [];
+  int currentPage = 0;
 
   @override
   void initState(){
@@ -28,6 +31,12 @@ class _NowPlayingListState extends State<NowPlayingList> {
         SizedBox(
           height: MediaQuery.of(context).size.height * 0.5,
           child:PageView.builder(
+          onPageChanged: (int page){
+            setState(() {
+              currentPage = page;
+              
+            });
+          },
           controller: pageController,  
           itemCount: movies.length,
           itemBuilder: (context,index){
@@ -43,7 +52,11 @@ class _NowPlayingListState extends State<NowPlayingList> {
   }
 
   List<Widget> _buildPageIndicators() {
-    return [];
+    List<Widget> indicators = [];
+    for (var i = 0; i< movies.length;i++){
+      indicators.add(_buildIndicator(i == currentPage));
+    }
+    return indicators;
   }
 
   Widget _buildIndicator(bool isActive) {

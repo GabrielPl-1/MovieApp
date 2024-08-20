@@ -1,7 +1,8 @@
 import 'package:movie_app/models/movie_model.dart';
 
 class ApiServices {
-  List<Movie> getMovies() {
+  Future<List<Movie>> getMovies() async{
+    await Future.delayed(const Duration(seconds: 5));
     // Cria a lista de filmes
 
     final movie1 = Movie(
